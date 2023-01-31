@@ -29,29 +29,9 @@ spec:
     spec:
       containers:
       - name: shypple
-        env:
-        - name: REDIS_HOST
-          value: redis
-        image: ghcr.io/manish-jangra/shypple:main
+        image: ghcr.io/manish-jangra/django-markdown-editor:master
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
           protocol: TCP
-        startupProbe:
-          exec:
-            command:
-            - "cat"
-            - "/code/app/myapp.log"
-          initialDelaySeconds: 10
-          timeoutSeconds: 3
-        readinessProbe:
-          httpGet:
-            path: /docs
-            port: 8000
-          timeoutSeconds: 5
-        livenessProbe:
-          httpGet:
-            path: /docs
-            port: 8000
-          timeoutSeconds: 5
       restartPolicy: Always
