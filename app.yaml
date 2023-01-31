@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: argocd-demo
+  name: argocd-demo
+spec:
+  ports:
+  - name: 8000-tcp
+    port: 8000
+  selector:
+    deployment: shypple
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: argocd-demo
+  name: argocd-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: argocd-demo
+  template:
+    metadata:
+      labels:
+        deployment: argocd-demo
+    spec:
+      containers:
+      - name: argocd-demo
+        image: ghcr.io/manish-jangra/django-markdown-editor:master
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+          protocol: TCP
+      restartPolicy: Always
